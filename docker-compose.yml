@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  app:
+    image: anyxel/pg-sql-injection:latest
+    container_name: anyxel_sqli_app
+    build:
+      context: .
+      dockerfile: ./.docker/php-apache.dockerfile
+    volumes:
+        - ./app:/var/www/html:delegated
+        - ./cron/cron.log:/var/log/cron.log:delegated
+    networks:
+        - anyxel_sqli
+    ports:
+      - 80:80
+
+  mysql:
+    image: 'yobasystems/alpine-mariadb'
+    container_name: anyxel_db
+    restart: unless-stopped
+    ports:
+        - '3306:3306'
+    environment:
+        MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+        MYSQL_DATABASE: '${DB_DATABASE}'
+        MYSQL_USER: '${DB_USERNAME}'
+        MYSQL_PASSWORD: '${DB_PASSWORD}'
+        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+        - 'anyxel_sqli_dbdata:/var/lib/mysql'
+    networks:
+        - anyxel_sqli
+    healthcheck:
+        test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+        retries: 3
+        timeout: 5s
+
+# networks
+networks:
+    anyxel_sqli:
+        driver: bridge
+
+# volumes
+volumes:
+    anyxel_sqli_dbdata:
+        driver: local
