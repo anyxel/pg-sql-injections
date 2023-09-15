@@ -8,23 +8,23 @@ define('dbpass', '123456');
 define('dbname', 'anyxel');
 
 
-class Config {
-  static $host = dbhost;
-  static $db = dbname;
-  static $user = dbuser;
-  static $pass = dbpass;
-}
+// class Config {
+//   static $host = dbhost;
+//   static $db = dbname;
+//   static $user = dbuser;
+//   static $pass = dbpass;
+// }
 
 
 function mysqliDB() {
-  // $db = new mysqli(dbhost, dbname, dbuser, dbpass);
-  $db = new mysqli(Config::$host, Config::$user, Config::$pass, Config::$db);
+  // $conn = new mysqli(Config::$host, Config::$user, Config::$pass, Config::$db);
+  $conn = new mysqli(dbhost, dbuser, dbpass, dbname);
   
-  if($db -> connect_error) {
-    die($db -> connect_error);
+  if($conn -> connect_error) {
+    die($conn -> connect_error);
   }
 
-  return $db;
+  return $conn;
 }
 
 

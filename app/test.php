@@ -8,6 +8,9 @@ $rows = 0;
 try {
   $db = pdoDB();
 
+  var_dump($db);
+  die();
+
   // $request = "105 OR 1=1";
   $request = "google.com' OR 1=1-- ";
 
