@@ -15,7 +15,7 @@ try {
 
   if (isset($_GET['username']) && isset($_GET['password'])) {
     $username = $_GET['username'];
-    $password = md5($_GET['password']);
+    $password = $_GET['password'];
 
     $query = "SELECT * FROM users where username = '$username' AND password = '$password'";
 

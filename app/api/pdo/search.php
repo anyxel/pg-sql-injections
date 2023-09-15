@@ -14,7 +14,7 @@ try {
   if (isset($_GET['q'])) {
     $searchQuery = $_GET['q'];
 
-    $query = "SELECT id, name, username, country, nid FROM users where username = '$searchQuery'";
+    $query = "SELECT id, name, username, mobile, nid, country FROM users where username = '$searchQuery'";
 
     $stmt = $db->query($query);
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
