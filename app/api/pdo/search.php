@@ -2,10 +2,11 @@
 error_reporting(0);
 require '../../inc/config.php';
 
+$timeStart = microtime(true);
 $success = false;
 $message = "Please enter query!";
 $user = [];
-$table = "users";
+$query = "";
 
 try {
   $db = pdoDB();
@@ -13,7 +14,7 @@ try {
   if (isset($_GET['q'])) {
     $searchQuery = $_GET['q'];
 
-    $query = "SELECT id, name, username, country, nid FROM $table where username = '$searchQuery'";
+    $query = "SELECT id, name, username, country, nid FROM users where username = '$searchQuery'";
 
     $stmt = $db->query($query);
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,11 +30,22 @@ try {
   $message = "User not found!";
 }
 
+// execution time
+$timeEnd = microtime(true);
+$executionTime = ($timeEnd - $timeStart); // seconds
+
+if((int)$executionTime == 0) {
+  $executionTime = round($executionTime * 1000, 3) . ' ms';
+}else {
+  $executionTime = round($executionTime, 3) . ' s';
+}
 
 // Response
 $response = [
   'success' => $success,
   'message' => $message,
+  'execution_time' => $executionTime,
+  'query' => $query,
   'user' => $user,
 ];
 header('Content-Type: application/json; charset=utf-8');

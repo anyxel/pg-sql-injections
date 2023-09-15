@@ -1,11 +1,12 @@
 <?php
 require '../../inc/config.php';
 
+$timeStart = microtime(true);
 $success = false;
 $message = "Please pass username and password!";
 $user = [];
 $rows = 0;
-$query = "users";
+$query = "";
 
 $qu  = "SELECT * FROM users where username = 'anyxel' OR 1=1' AND password =";
 
@@ -36,10 +37,22 @@ try {
 }
 
 
+// execution time
+$timeEnd = microtime(true);
+$executionTime = ($timeEnd - $timeStart); // seconds
+
+if((int)$executionTime == 0) {
+  $executionTime = round($executionTime * 1000, 3) . ' ms';
+}else {
+  $executionTime = round($executionTime, 3) . ' s';
+}
+
+
 // Response
 $response = [
   'success' => $success,
   'message' => $message,
+  'execution_time' => $executionTime,
   'query' => $query,
   'user' => $user,
   'user' => $user,
