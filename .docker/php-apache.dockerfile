@@ -29,7 +29,6 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli
 # start cron service
 # RUN sed -i 's/^exec /service cron start\n\nexec /' /usr/local/bin/apache2-foreground
 
-
 # set file permissioms
 RUN mkdir -p /var/www/html/uploads
 RUN chown obydul:obydul -R /var/www/html/

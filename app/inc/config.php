@@ -2,23 +2,14 @@
 session_start();
 
 // Define database
-define('dbhost', 'anyxel_db');
-define('dbuser', 'root');
-define('dbpass', '123456');
-define('dbname', 'anyxel');
+define('DB_HOST', getenv('DB_HOST'));
+define('DB_USERNAME', getenv('DB_USERNAME'));
+define('DB_PASSWORD', getenv('DB_PASSWORD'));
+define('DB_DATABASE', getenv('DB_DATABASE'));
 
-
-// class Config {
-//   static $host = dbhost;
-//   static $db = dbname;
-//   static $user = dbuser;
-//   static $pass = dbpass;
-// }
-
-
+// MySQLi connection
 function mysqliDB() {
-  // $conn = new mysqli(Config::$host, Config::$user, Config::$pass, Config::$db);
-  $conn = new mysqli(dbhost, dbuser, dbpass, dbname);
+  $conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
   
   if($conn -> connect_error) {
     die($conn -> connect_error);
@@ -28,9 +19,10 @@ function mysqliDB() {
 }
 
 
+// PDO connection
 function pdoDB() {
   try {
-    $connect = new PDO("mysql:host=".dbhost."; dbname=".dbname, dbuser, dbpass);
+    $connect = new PDO("mysql:host=".DB_HOST."; dbname=".DB_DATABASE, DB_USERNAME, DB_PASSWORD);
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     return $connect;
@@ -41,17 +33,4 @@ function pdoDB() {
       'message' => $e->getMessage()
     ], JSON_PRETTY_PRINT));
   }
-}
-
-
-// Connecting database
-try {
-	$connect = new PDO("mysql:host=".dbhost."; dbname=".dbname, dbuser, dbpass);
-	$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch(PDOException $e) {
-  die(json_encode([
-    'success' => false,
-    'message' => $e->getMessage()
-  ], JSON_PRETTY_PRINT));
 }

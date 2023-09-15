@@ -7,11 +7,16 @@ services:
     build:
       context: .
       dockerfile: ./.docker/php-apache.dockerfile
+    environment:
+        DB_HOST: '${DB_HOST}'
+        DB_DATABASE: '${DB_DATABASE}'
+        DB_USERNAME: '${DB_USERNAME}'
+        DB_PASSWORD: '${DB_PASSWORD}'
     volumes:
         - ./app:/var/www/html:delegated
         - ./cron/cron.log:/var/log/cron.log:delegated
     networks:
-        - anyxel_sqli
+        - anyxel
     ports:
       - 80:80
 
@@ -30,7 +35,7 @@ services:
     volumes:
         - 'anyxel_sqli_dbdata:/var/lib/mysql'
     networks:
-        - anyxel_sqli
+        - anyxel
     healthcheck:
         test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
         retries: 3
@@ -38,7 +43,7 @@ services:
 
 # networks
 networks:
-    anyxel_sqli:
+    anyxel:
         driver: bridge
 
 # volumes
