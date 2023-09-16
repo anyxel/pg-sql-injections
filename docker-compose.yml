@@ -2,21 +2,22 @@ version: '3.9'
 
 services:
   app:
-    image: anyxel/pg-sql-injection:latest
+    image: anyxel/pg-sql-injections:latest
     container_name: anyxel_sqli_app
     build:
       context: .
       dockerfile: ./.docker/php-apache.dockerfile
     environment:
         DB_HOST: '${DB_HOST}'
+        DB_PORT: '${DB_PORT}'
         DB_DATABASE: '${DB_DATABASE}'
         DB_USERNAME: '${DB_USERNAME}'
         DB_PASSWORD: '${DB_PASSWORD}'
     volumes:
         - ./app:/var/www/html:delegated
         - ./cron/cron.log:/var/log/cron.log:delegated
-    networks:
-        - anyxel
+    # networks:
+    #     - anyxel
     ports:
       - 80:80
 
@@ -25,7 +26,7 @@ services:
     container_name: anyxel_db
     restart: unless-stopped
     ports:
-        - '3306:3306'
+        - '${DB_PORT}:3306'
     environment:
         MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
         MYSQL_DATABASE: '${DB_DATABASE}'
@@ -34,8 +35,8 @@ services:
         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
         - 'anyxel_sqli_dbdata:/var/lib/mysql'
-    networks:
-        - anyxel
+    # networks:
+    #     - anyxel
     healthcheck:
         test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
         retries: 3

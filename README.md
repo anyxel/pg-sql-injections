@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-SQL Injection Playground
+SQL Injections Playground
 </p>
 
-> Anyxel SQL injection playground.
+> Anyxel SQL injections playground.
 
 ## Play Online
 [https://anyxel.com/playground/sql-injections](https://anyxel.com/playground/sql-injections)
