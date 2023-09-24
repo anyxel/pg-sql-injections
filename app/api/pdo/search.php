@@ -23,6 +23,8 @@ try {
     if($rows > 0) {
       $success = true;
       $message = "Successfully retrieved the data!";
+    }else {
+      $message = "User not found!";
     }
   }
 } catch (Exception $ex) {
