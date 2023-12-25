@@ -12,3 +12,10 @@ SQL Injections Playground
 
 ## Play Online
 [https://anyxel.com/playground/sql-injections](https://anyxel.com/playground/sql-injections)
+
+## Run Locally
+Run with Docker:
+
+```shell
+docker run -d -p 80:80 anyxel/pg-sql-injections
+```
